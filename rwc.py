@@ -71,16 +71,14 @@ class Match:
                 pts2, tries2 = self.__simulate_team(poss2, succ2, succ1, kick2)
 
         self.__score = (pts1, pts2)
-        self.__points = (self.__calc_points(pts1, pts2, tries1), self.__calc_points(pts2, pts1, tries2))
         if count:
-            self.__home.add_points(n=self.__points[0])
-            self.__away.add_points(n=self.__points[1])
+            self.__home.add_points(n=self.__calc_points(pts1, pts2, tries1))
+            self.__away.add_points(n=self.__calc_points(pts2, pts1, tries2))
 
     def get_score(self):
         return self.__score
     
-    def get_points(self):
-        return self.__points
+
     
 
 def get_matches(group):
