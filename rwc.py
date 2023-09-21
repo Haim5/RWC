@@ -35,12 +35,6 @@ class Match:
                 pts += 3
         return pts, tries
     
-    def get_home(self):
-        return self.__home
-    
-    def get_away(self):
-        return self.__away
-    
     def __calc_points(self, pts1, pts2, tries):
         p1 = 0
         if tries >= 4:
