@@ -17,6 +17,7 @@ class Match:
     def __init__(self, home, away):
         self.__home = home
         self.__away = away
+        self.__score = (0,0)
         self.__poss = random.choice([7,8,9])
         self.__succ = 58
         self.__kick = 78
@@ -47,7 +48,7 @@ class Match:
         if pts1 == pts2:
             return p1 + 2
         if pts1 > pts2:
-            return 4 + p1
+            return p1 + 4
         if pts2 - pts1 <= 7:
             return p1 + 1
         return p1
@@ -75,12 +76,15 @@ class Match:
             self.__home.add_points(n=self.__calc_points(pts1, pts2, tries1))
             self.__away.add_points(n=self.__calc_points(pts2, pts1, tries2))
 
-    def get_score(self):
-        return self.__score
-    
+    def print_match(self):
+        print(self.__home.name + " " + str(self.__score[0]) + " " + self.__away.name + " " + str(self.__score[1]))
+
+    def get_winner(self):
+        if self.__score[0] >= self.__score[1]:
+            return self.__home
+        return self.__away
 
     
-
 def get_matches(group):
     matches = []
     for i in range(len(group)):
@@ -102,8 +106,7 @@ def tournament():
         print("Group " + str(group_num) + " Matches")
         for match in matches:
             match.simulate(count=True, tie=True)
-            (h,a) = match.get_score()
-            print(match.get_home().name + " " + str(h) + " " + match.get_away().name + " " + str(a))
+            match.print_match()
         group.sort(reverse=True, key=lambda t: t.get_points())
         print("\nGroup " + str(group_num) + " Table")
         group_num += 1
@@ -119,12 +122,8 @@ def tournament():
         t2 = ko.pop(0)
         match = Match(t1, t2)
         match.simulate()
-        (h,a) = match.get_score()
-        print(match.get_home().name + " " + str(h) + " " + match.get_away().name + " " + str(a))
-        if h >= a:
-            ko.append(t1)
-        else:
-            ko.append(t2)
+        match.print_match()
+        ko.append(match.get_winner())
         if i == level:
             level /= 2
             i = 1
@@ -139,7 +138,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-        
-        
-
