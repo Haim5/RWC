@@ -18,7 +18,7 @@ class Match:
         self.__home = home
         self.__away = away
         self.__poss = random.choice([7,8,9])
-        self.__succ = 38
+        self.__succ = 58
         self.__kick = 78
 
     def __simulate_team(self, poss, succ1, succ2, kick):
@@ -56,8 +56,8 @@ class Match:
         poss1 = self.__poss - (self.__home.tier * random.choice([1,2]))
         poss2 = self.__poss - (self.__away.tier * random.choice([1,2]))
 
-        succ1 = self.__succ - self.__home.rank
-        succ2 = self.__succ - self.__away.rank
+        succ1 = self.__succ - (self.__home.rank * 2)
+        succ2 = self.__succ - (self.__away.rank * 2)
 
         kick1 = self.__kick - (self.__home.rank // 2)
         kick2 = self.__kick - (self.__away.rank // 2) 
