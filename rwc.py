@@ -101,10 +101,13 @@ def tournament():
     group_num = 1
     for group in groups:
         matches = get_matches(group=group)
+        print("Group " + str(group_num) + " Matches")
         for match in matches:
             match.simulate(count=True, tie=True)
+            (h,a) = match.get_score()
+            print(match.get_home().name + " " + str(h) + " " + match.get_away().name + " " + str(a))
         group.sort(reverse=True, key=lambda t: t.get_points())
-        print("Group " + str(group_num))
+        print("\nGroup " + str(group_num) + " Table")
         group_num += 1
         for team in group:
             print(team.name + " " + str(team.get_points()))
