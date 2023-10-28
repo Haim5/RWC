@@ -89,7 +89,7 @@ def get_matches(group):
     
 def tournament():
     group_a = [Team("France", 1, 3), Team("New Zealand", 1, 4), Team("Italy", 1, 12), Team("Uruguay", 2, 17), Team("Namibia", 3, 21)]
-    group_b = [Team("Ireland", 1, 1), Team("South Africa", 1, 2), Team("Scotland", 1, 5), Team("Tonga", 2, 15), Team("Romania", 2, 19)]
+    group_b = [Team("Ireland", 1, 1), Team("South Africa", 1, 2), Team("Scotland", 1, 5), Team("Tonga", 2, 15), Team("Romania", 3, 19)]
     group_c = [Team("Wales", 1, 7), Team("Fiji", 2, 8), Team("Australia", 1, 9), Team("Georgia", 2, 13), Team("Portugal", 3, 16)]
     group_d = [Team("England", 1, 6), Team("Samoa", 2, 11), Team("Japan", 1, 14), Team("Chile", 3, 22), Team("Argentina", 1, 10)]
 
