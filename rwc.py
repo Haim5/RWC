@@ -14,11 +14,11 @@ class Team:
         self.__pts += n
 
 class Match:
-    def __init__(self, home, away):
+    def __init__(self, home : Team, away : Team):
         self.__home = home
         self.__away = away
         self.__score = (0,0)
-        self.__poss = random.choice([7,8,9])
+        self.__poss = random.choice([i+7 for i in range(3 * (1 + abs(home.tier - away.tier)))])
         self.__succ = 58
         self.__kick = 78
 
@@ -81,7 +81,7 @@ class Match:
     
 def get_matches(group):
     matches = []
-    for i in range(len(group)):
+    for i in range(len(group)-1):
         for j in range(i+1, len(group)):
             matches.append(Match(group[i], group[j]))
     return matches
@@ -112,9 +112,7 @@ def tournament():
     level = len(ko) / 2
     i = 1
     while len(ko) > 1:
-        t1 = ko.pop(0)
-        t2 = ko.pop(0)
-        match = Match(t1, t2)
+        match = Match(ko.pop(0), ko.pop(0))
         match.simulate()
         match.print_match()
         ko.append(match.get_winner())
