@@ -1,4 +1,4 @@
-# rwc
+# RWC
 Simple rugby world cup 2023 simulator
 
 ## What are the simulated scores based on?
