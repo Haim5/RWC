@@ -77,11 +77,11 @@ class Match:
         return self.__away
 
 class Tournament:
-    def __init__(self):
-        self.__group_a = [Team("France", 1, 3), Team("New Zealand", 1, 4), Team("Italy", 1, 12), Team("Uruguay", 2, 17), Team("Namibia", 3, 21)]
-        self.__group_b = [Team("Ireland", 1, 1), Team("South Africa", 1, 2), Team("Scotland", 1, 5), Team("Tonga", 2, 15), Team("Romania", 3, 19)]
-        self.__group_c = [Team("Wales", 1, 7), Team("Fiji", 2, 8), Team("Australia", 1, 9), Team("Georgia", 2, 13), Team("Portugal", 3, 16)]
-        self.__group_d = [Team("England", 1, 6), Team("Samoa", 2, 11), Team("Japan", 1, 14), Team("Chile", 3, 22), Team("Argentina", 1, 10)]
+    def __init__(self, group_a, group_b, group_c, group_d):
+        self.__group_a = group_a
+        self.__group_b = group_b
+        self.__group_c = group_c
+        self.__group_d = group_d
 
     def run_tournament(self):
         self.__run_group_stage(groups=[self.__group_a, self.__group_b, self.__group_c, self.__group_d])
@@ -127,7 +127,10 @@ class Tournament:
         return matches
 
 def main():
-    rwc2023 = Tournament()
+    rwc2023 = Tournament([Team("France", 1, 3), Team("New Zealand", 1, 4), Team("Italy", 1, 12), Team("Uruguay", 2, 17), Team("Namibia", 3, 21)],
+                        [Team("Ireland", 1, 1), Team("South Africa", 1, 2), Team("Scotland", 1, 5), Team("Tonga", 2, 15), Team("Romania", 3, 19)],
+                        [Team("Wales", 1, 7), Team("Fiji", 2, 8), Team("Australia", 1, 9), Team("Georgia", 2, 13), Team("Portugal", 3, 16)],
+                        [Team("England", 1, 6), Team("Samoa", 2, 11), Team("Japan", 1, 14), Team("Chile", 3, 22), Team("Argentina", 1, 10)])
     rwc2023.run_tournament()
 
 if __name__ == "__main__":
