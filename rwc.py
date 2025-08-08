@@ -1,5 +1,5 @@
 import random
-
+from collections import deque
 class Team:
     def __init__(self, name : str, tier : int, rank : int):
         self.name = name
@@ -18,7 +18,7 @@ class Match:
         self.__home = home
         self.__away = away
         self.__score = (0,0)
-        self.__poss = random.choice([i+8 for i in range(3 * (1 + abs(home.tier - away.tier)))])
+        self.__poss = random.choice([i+7 for i in range(3 * (1 + abs(home.tier - away.tier)))])
         self.__succ = 58
         self.__kick = 78
 
@@ -35,15 +35,16 @@ class Match:
                 pts += 3
         return pts, tries
     
-    def __calc_points(self, pts1 : int, pts2 : int, tries : int) -> int:
-        p = 1 if tries >= 4 else 0
-        if pts1 == pts2:
-            return p + 2
-        if pts1 > pts2:
+    def __calc_points(self, diff : int, tries : int) -> int:
+        p = 0 if tries < 4 else 1
+        if diff > 0:
             return p + 4
-        if pts2 - pts1 <= 7:
+        if diff == 0:
+            return p + 2
+        if diff >= -7:
             return p + 1
         return p
+
 
     def simulate(self, groupStageGame=True):
         poss1 = self.__poss - (self.__home.tier * random.choice([1,2]))
@@ -59,8 +60,8 @@ class Match:
         pts2, tries2 = self.__simulate_team(poss2, succ2, succ1, kick2)
 
         if groupStageGame:
-            self.__home.add_points(n=self.__calc_points(pts1, pts2, tries1))
-            self.__away.add_points(n=self.__calc_points(pts2, pts1, tries2))
+            self.__home.add_points(n=self.__calc_points(pts1 - pts2, tries1))
+            self.__away.add_points(n=self.__calc_points(pts2 - pts1, tries2))
         else:
             while pts1 == pts2:
                 pts1, tries1 = self.__simulate_team(poss1, succ1, succ2, kick1)
@@ -85,8 +86,8 @@ class Tournament:
 
     def run_tournament(self):
         self.__run_group_stage(groups=[self.__group_a, self.__group_b, self.__group_c, self.__group_d])
-        self.__run_ko_stage(ko=[self.__group_c[0], self.__group_d[1], self.__group_b[0], self.__group_a[1], 
-              self.__group_d[0], self.__group_c[1], self.__group_a[0], self.__group_b[1]])
+        self.__run_ko_stage(ko=deque([self.__group_c[0], self.__group_d[1], self.__group_b[0], self.__group_a[1], 
+              self.__group_d[0], self.__group_c[1], self.__group_a[0], self.__group_b[1]]))
 
     def __run_group_stage(self, groups : list[list[Team]]):
         for i, group in enumerate(groups):
@@ -101,12 +102,11 @@ class Tournament:
                 print(team.name + " " + str(team.get_points()))
             print("\n")
 
-
     def __run_ko_stage(self, ko : list[Team]):
         level = len(ko) / 2
         i = 1
         while len(ko) > 1:
-            match = Match(ko.pop(0), ko.pop(0))
+            match = Match(ko.popleft(), ko.popleft())
             match.simulate(groupStageGame=False)
             match.print_match()
             ko.append(match.get_winner())
@@ -117,7 +117,7 @@ class Tournament:
             else:
                 i += 1
 
-        print("WINNER: " + ko.pop().name)
+        print("WINNER: " + ko.popleft().name)
 
     def __get_matches(self, group : list[Team]) -> list[Match]:
         matches = []
