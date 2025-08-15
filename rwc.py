@@ -50,11 +50,11 @@ class Match:
         poss1 = self.__poss - (self.__home.tier * random.choice([1,2]))
         poss2 = self.__poss - (self.__away.tier * random.choice([1,2]))
 
-        succ1 = self.__succ - (self.__home.rank * 2)
-        succ2 = self.__succ - (self.__away.rank * 2)
+        succ1 = max(2, self.__succ - (self.__home.rank * 2))
+        succ2 = max(2, self.__succ - (self.__away.rank * 2))
 
-        kick1 = self.__kick - (self.__home.rank // 2)
-        kick2 = self.__kick - (self.__away.rank // 2) 
+        kick1 = max(20, self.__kick - (self.__home.rank // 2))
+        kick2 = max(20, self.__kick - (self.__away.rank // 2))
 
         pts1, tries1 = self.__simulate_team(poss1, succ1, succ2, kick1)
         pts2, tries2 = self.__simulate_team(poss2, succ2, succ1, kick2)
